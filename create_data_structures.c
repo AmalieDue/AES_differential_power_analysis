@@ -1,10 +1,14 @@
+//
+// Created by Amalie Due Jensen s160503 and Anders Lammert Hartmann s153596
+//
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "definitions.h"
 #include "create_data_structures.h"
 
-// AES S-Box
+// AES S-Box - used within the create_H_matrix
 unsigned char S[] = {
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
     0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
@@ -24,6 +28,13 @@ unsigned char S[] = {
     0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16
 };
 
+/*
+* Description: Read a file into a file pointer. If error, then the function returns an error message.
+*
+* Input: The filename and a file pointer in which the file should be opened.
+*
+* Output: The file pointer in which the file has been opened.
+*/
 FILE * open_file(char* filename, FILE *file) {
     file = fopen(filename, "r");
 
@@ -35,10 +46,24 @@ FILE * open_file(char* filename, FILE *file) {
     return file;
 }
 
+/*
+* Description: Close a file.
+*
+* Input: The file pointer that should be closed.
+*
+* Output: Nothing.
+*/
 void close_file(FILE *file) {
     fclose(file);
 }
 
+/*
+* Description: Create the T matrix by reading the TX.dat file line by line as strings and converting each string line to 55 floats.
+*
+* Input: The float array T in which the data should be inserted and the filename TX.dat containing the data.
+*
+* Output: The T matrix (however, it is actually not stored as a matrix, but as a float array instead).
+*/
 float * create_T_matrix(float T[], char* filename) {
     int line_length = 55*8;
     char line[line_length];
@@ -65,21 +90,38 @@ float * create_T_matrix(float T[], char* filename) {
     return T;
 }
 
-
+/*
+* Description: Compute the hamming weight of an integer, i.e. compute the number of 1's in the byte representation of the integer.
+*
+* Input: The integer.
+*
+* Output: The hamming weight of the integer.
+*/
 int compute_hamming_weight(int a) {
-    int count = 0;
-    int x = 0;
+    int hamming_weight = 0;
+    int current_bit = 0;
 
     for(int i = 0; i < BYTE_LENGTH; i++){
-        x = ((a >> i) & 0x01);
-        if (x == 1){
-            count++;
+        current_bit = ((a >> i) & 0x01);
+        if (current_bit == 1){
+            hamming_weight++;
         }
     }
 
-    return count;
+    return hamming_weight;
 }
 
+
+/*
+* Description: Create the H matrix by first reading the inputsX.dat file as a string and then converting the string to 600 floats.
+* The H matrix contains the expected values. Element H[i][j] contains HW(S[k_j XOR input_i]), or in other words: In order to create
+* element H[i][j], we XOR the j'th key and the i'th input, then we pass the result through the AES S-box, and finally we compute the
+* Hamming weight of the result.
+*
+* Input: The float array H in which the data should be inserted and the filename inputsX.dat containing the data.
+*
+* Output: The H matrix (however, it is actually not stored as a matrix, but as a float array instead).
+*/
 float * create_H_matrix(float H[], char* filename) {
     FILE *file;
     file = open_file(filename, file);
