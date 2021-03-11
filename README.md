@@ -1,4 +1,4 @@
-# AES_differential_power_analysis
+# AES differential power analysis
 
 > This repository contains our implementation of the differential power analysis on AES in the course 02255 Modern Cryptologu Spring 2021 at DTU. The group members are [Anders Lammert Hartmann](https://github.com/AndersHartmann) 
 (Student ID: s153596) and [Amalie Due Jensen](https://github.com/AmalieDue) (Student ID: s160503).
