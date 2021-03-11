@@ -30,7 +30,9 @@ create_H_matrix(H, "inputs3.dat");
 
 // Now, we want to guess the correct key byte by doing two experiements:
 
-// First, we simply find the highest Pearson correlation and the corresponding key byte. We initialize the following float array with 2 elements, and the idea is then to pass the correct key and the highest Pearson correlation into the array.
+// First, we simply find the highest Pearson correlation and the corresponding key byte. We
+// initialize the following float array with 2 elements, and the idea is then to pass the
+// correct key and the highest Pearson correlation into the array.
 
 float correct_key_and_correlation[2];
 correct_key_and_correlation[0] = 0;
@@ -38,7 +40,8 @@ correct_key_and_correlation[1] = 0;
 
 compute_correct_key_and_correlation(correct_key_and_correlation, H, T);
 
-printf("Key %.0f has the best correlation which is %f\n", correct_key_and_correlation[0], correct_key_and_correlation[1]);
+printf("Key %.0f has the best correlation which is %f\n", correct_key_and_correlation[0],
+correct_key_and_correlation[1]);
 
 ```
 
@@ -52,7 +55,11 @@ Success! We found out that key byte 32 results in the highest Pearson correlatio
 
 ```c
 
-// We now verify the result from experiment 1 by doing experiment 2: Now, we compute the sum of all 55 correlations for each key byte, i.e. the sum of the correlations for all time points. We initialize the following float array with KEYS = 256 elements in which we store each of the sums of correlations. If key byte 32 gets the highest sum of correlations, then it is even more likely that we found the correct key byte.
+// We now verify the result from experiment 1 by doing experiment 2: Now, we compute the sum of
+// all 55 correlations for each key byte, i.e. the sum of the correlations for all time points.
+// We initialize the following float array with KEYS = 256 elements in which we store each of the
+// sums of correlations. If key byte 32 gets the highest sum of correlations, then it is even
+// more likely that we found the correct key byte.
 
 float correlations[KEYS];
 
