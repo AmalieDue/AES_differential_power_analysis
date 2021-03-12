@@ -77,7 +77,7 @@ for (int i = 0; i < KEYS; i++) {
 
 ```
 
-Output:
+Output: (In a future version, this output will be sorted by accumulated correlation :-) )
 ```c
 
 Key 0, accumulated correlation = 4.110390
@@ -385,4 +385,4 @@ gcc main.c create_data_structures.c pearson_correlation.c -o aes
 
 * `float * compute_correct_key_and_correlation (float correct_key_and_correlation[], float H[], float T[])`: Compute the key byte with the highest correlation.
 
-* `float * compute_total_correlation_per_key (float correlations[], float H[], float T[])`: Compute the sum of all 55 correlations for each key byte. In other words, the sum of the correlations for each time point.
+* `float * compute_accumulated_correlation_per_key (float correlations[], float H[], float T[])`: Compute the sum of all 55 correlations for each key byte. In other words, the sum of the correlations for each time point.

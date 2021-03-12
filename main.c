@@ -18,7 +18,7 @@
 *
 * Output: The float array of all 256 sums of correlations.
 */
-float * compute_total_correlation_per_key (float correlations[], float H[], float T[]) {
+float * compute_accumulated_correlation_per_key (float correlations[], float H[], float T[]) {
     float H_column[TRACES];
     float T_column[TRACES];
 
@@ -107,10 +107,11 @@ int main() {
         correlations[i] = 0;
     }
 
-    compute_total_correlation_per_key(correlations, H, T);
+    compute_accumulated_correlation_per_key(correlations, H, T);
 
     printf("Accumulated correlation per key:\n\n", SAMPLES);
     
+    // In a future version, this output will be sorted by accumulated correlation :-)
     for (int i = 0; i < KEYS; i++) {
         printf("Key %d, accumulated correlation = %f\n", i, correlations[i]);
     }
