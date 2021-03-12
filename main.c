@@ -99,7 +99,7 @@ int main() {
 
     compute_correct_key_and_correlation(correct_key_and_correlation, H, T);
 
-    printf("Key %.0f has the best correlation which is %f\n", correct_key_and_correlation[0], correct_key_and_correlation[1]);
+    printf("Key %.0f has the best single correlation which is %f\n", correct_key_and_correlation[0], correct_key_and_correlation[1]);
 
     float correlations[KEYS];
 
@@ -109,10 +109,10 @@ int main() {
 
     compute_total_correlation_per_key(correlations, H, T);
 
-    printf("Total sum of all %d correlations for each key:\n\n", SAMPLES);
+    printf("Accumulated correlation per key:\n\n", SAMPLES);
     
     for (int i = 0; i < KEYS; i++) {
-        printf("Key %d, correlation = %f\n", i, correlations[i]);
+        printf("Key %d, accumulated correlation = %f\n", i, correlations[i]);
     }
 
     // The correct key byte is 32. Key 32 has the best correlation which is 0.317993,
