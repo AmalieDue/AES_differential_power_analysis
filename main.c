@@ -31,6 +31,8 @@ float * compute_accumulated_correlation_per_key (float correlations[], float H[]
             for (int j = 0; j < TRACES; j++) {
                 T_column[j] = T[k+j*SAMPLES];
             }
+            // Keep adding the correlations for each time point. Hence, correlations[i] becomes the
+            // accumulated correlation for key byte i.
             correlations[i] += fabs(pearson_correlation(H_column, T_column));
         }
     }
@@ -61,6 +63,9 @@ float * compute_correct_key_and_correlation (float correct_key_and_correlation[2
                 T_column[j] = T[k+j*SAMPLES];
             }
 
+            // Check whether an even better correlation were found. If the current correlation is better than what
+            // is stored in correct_key_and_correlation[1], then we update correct_key_and_correlation[1] with the
+            // new correlation. Furthermore, correct_key_and_correlation[0] is updated with the new key byte guess.
             if (fabs(pearson_correlation(H_column, T_column)) > correct_key_and_correlation[1]) {
                 correct_key_and_correlation[1] = fabs(pearson_correlation(H_column, T_column));
                 correct_key_and_correlation[0] = i;
@@ -82,7 +87,7 @@ int main() {
     * - Experiment 1: First, we simply find the highest correlation (the Pearson correlation closest to 1 or -1) and
     * print the corresponding key byte.
     * - Experiment 2: Afterwards, we sum all 55 correlations for each key byte, which means that in total we get 256 (sums of)
-    * correlations. Then, we check that the greatest of these values corresponds to the key byte guess from experiment 1.
+    * correlations. Then, we check that the highest of these values corresponds to the key byte guess from experiment 1.
     * 
     */
     float T[TRACES*SAMPLES];

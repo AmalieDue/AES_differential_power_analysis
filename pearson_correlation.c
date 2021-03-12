@@ -43,6 +43,7 @@ float pearson_correlation(float h[], float t[]) {
     float t_part = 0;
     float t_part_squared = 0;
 
+    // Compute nominator and denominator according to the definition of the Pearson correlation
     for (int i = 0; i < TRACES; i++) {
         h_part = h[i] - h_average;
         t_part = t[i] - t_average;

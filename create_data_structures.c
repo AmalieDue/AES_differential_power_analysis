@@ -8,7 +8,7 @@
 #include "definitions.h"
 #include "create_data_structures.h"
 
-// AES S-Box - used within the create_H_matrix
+// AES S-Box - used within the create_H_matrix function
 unsigned char S[] = {
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
     0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
@@ -74,8 +74,10 @@ float * create_T_matrix(float T[], char* filename) {
 
     int i = 0;
     for (int j = 0; j < TRACES; j++) {
+        // Read one line at a time
         fgets(line, line_length, file);
         
+        // Separate the line by comma and store in the T array
         separate_by_comma = strtok(line, ",");
         
         while (separate_by_comma != NULL) {
@@ -128,9 +130,11 @@ float * create_H_matrix(float H[], char* filename) {
 
     int line_length = 600*4;
     char line[line_length];
+    // Since this data file only contains one line of data, it is possible to read all the data at the same time
     fgets(line, line_length, file);
     char* separate_by_comma;
         
+    // Separate the line of data by comma    
     separate_by_comma = strtok(line, ",");
 
     int plaintexts[TRACES];
@@ -142,6 +146,7 @@ float * create_H_matrix(float H[], char* filename) {
         i++;
     }
 
+    // Compute hamming weights of expected values
     for (int i = 0; i < TRACES; i++) {
         for (int j = 0; j < KEYS; j++) {
             H[i*KEYS+j] = S[plaintexts[i] ^ j];
